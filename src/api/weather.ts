@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const weatherApi = axios.create({
-  baseURL: 'http://localhost:5173/api',
+  baseURL: 'https://api.open-meteo.com/v1/forecast',
   timeout: 5000,
   withCredentials: true,
   headers: {
