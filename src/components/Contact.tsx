@@ -4,7 +4,7 @@ export default () => {
       <p>
         SourceCode at{' '}
         <a
-          href='https://github.com/JohnCrossRollOn/todo-app'
+          href='https://github.com/juanrolon54/john-weatherapp'
           target='_blank'
           className='font-bold bg-white text-black px-2'
         >
