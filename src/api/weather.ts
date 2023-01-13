@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const weatherApi = axios.create({
-  baseURL: 'https://api.open-meteo.com/v1/forecast',
+  baseURL: 'https://cool-weatherapp.vercel.app/api',
   timeout: 5000,
   withCredentials: true,
   headers: {
