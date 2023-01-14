@@ -16,7 +16,7 @@ function App() {
           <WeatherInfo />
         </div>
         <div className='absolute w-full h-full grid place-items-center text-white select-none'>
-          <p className='border border-white px-3 py-3 relative grid place-items-center'>
+          <p className='z-50 border border-white px-3 py-3 relative grid place-items-center'>
             <span className='absolute'>&#x2022;</span>
           </p>
         </div>
