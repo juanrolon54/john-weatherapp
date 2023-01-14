@@ -17,7 +17,7 @@ export default () => {
       {Object.keys(weather).length > 1 && (
         <div className='border border-white p-2'>
           <p className='text-[4rem] text-bold tracking-widest px-2 text-black bg-white w-fit'>
-            {weather.current_weather.temperature}°
+            {weather?.current_weather?.temperature || '--'}°
           </p>
           <p className='text-center text-lg'>{name}</p>
         </div>
