@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const weatherApi = axios.create({
-  baseURL: 'https://cool-weatherapp.vercel.app/api',
+  baseURL: window.location.href + 'api/weather',
   timeout: 5000,
   withCredentials: true,
   headers: {
@@ -18,6 +18,7 @@ export const locationApi = axios.create({
 })
 
 export const getWeatherByLocation = (location: [number, number]) => {
+  console.log(window.location.href + 'api/weather')
   const [latitude, longitude] = location
   const forecast = weatherApi.get('', {
     params: {
