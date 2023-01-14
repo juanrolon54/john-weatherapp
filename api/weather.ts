@@ -1,4 +1,4 @@
-const { createProxyMiddleware } = require('http-proxy-middleware')
+import { createProxyMiddleware } from 'http-proxy-middleware'
 
 const apiProxy = createProxyMiddleware({
   target: 'https://api.open-meteo.com/v1/forecast',
@@ -6,7 +6,7 @@ const apiProxy = createProxyMiddleware({
   pathRewrite: {
     '^/api/weather': ''
   }
-})
+}) as any
 
 export default function (req, res) {
   return apiProxy(req, res)
