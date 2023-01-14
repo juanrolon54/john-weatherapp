@@ -55,7 +55,8 @@ export default function WeatherBox() {
           type='text'
           value={search}
           onChange={changeHandler}
-          className='flex-1 border-b border-b-black bg-white outline-none'
+          placeholder='Search by country or city'
+          className='flex-1 border-b border-b-black bg-white outline-none placeholder:text-slate-600'
         />
         <button className='px-1'>Pick</button>
       </form>
