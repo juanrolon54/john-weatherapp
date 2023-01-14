@@ -3,7 +3,7 @@ import useWeatherByLocation from '../hooks/useWeatherByLocation'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 export default () => {
-  const { location } = useContext()
+  const { location, name } = useContext()
   const weather: any = useWeatherByLocation(location)
   const [latitude, longitude] = location
 
@@ -19,6 +19,7 @@ export default () => {
           <p className='text-[4rem] text-bold tracking-widest px-2 text-black bg-white w-fit'>
             {weather.current_weather.temperature}°
           </p>
+          <p className='text-center text-lg'>{name}</p>
         </div>
       )}
     </div>

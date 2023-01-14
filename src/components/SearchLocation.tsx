@@ -19,7 +19,7 @@ import { useContext } from '../context/AppContext'
 export default function WeatherBox() {
   const [results, setSearch, search] = useSearchLocation()
   const [animateRef] = useAutoAnimate<HTMLDivElement>()
-  const { setLocation } = useContext()
+  const { setLocation, setName } = useContext()
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
   }
@@ -39,7 +39,9 @@ export default function WeatherBox() {
       searchResults?.data.results.length > 0
     ) {
       const { latitude, longitude } = searchResults?.data.results[0]
+      const { name }: any = results
       setLocation([latitude, longitude])
+      setName(name)
     }
   }
   return (

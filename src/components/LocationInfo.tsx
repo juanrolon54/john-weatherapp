@@ -2,14 +2,16 @@ import { ChangeEvent } from 'react'
 import { useContext } from '../context/AppContext'
 
 export default () => {
-  const { location, setLocation } = useContext()
+  const { location, setLocation, setName } = useContext()
   const [latitude, longitude] = location
   const handle = {
     latitude(e: ChangeEvent<HTMLInputElement>) {
       setLocation([Number(e.target.value), location[1]])
+      setName('custom')
     },
     longitude(e: ChangeEvent<HTMLInputElement>) {
       setLocation([location[0], Number(e.target.value)])
+      setName('custom')
     }
   }
   // -90 to 90 for latitude and -180 to 180 for longitude
