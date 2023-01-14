@@ -46,7 +46,7 @@ export type locationSearchItem = {
 
 export const searchAutocomplete = async (name: string = '') => {
   const response = await locationApi.get('', {
-    params: { name }
+    params: { name, count: 50 }
   })
   return response
 }
