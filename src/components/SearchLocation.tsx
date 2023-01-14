@@ -39,9 +39,10 @@ export default function WeatherBox() {
       searchResults?.data.results.length > 0
     ) {
       const { latitude, longitude } = searchResults?.data.results[0]
-      const { name }: any = results
       setLocation([latitude, longitude])
-      setName(name)
+      //TODO get better at typescript
+      const { data }: any = results
+      setName(data.results.name)
     }
   }
   return (
@@ -82,19 +83,20 @@ const QueryItems = ({ results }: any) => {
 }
 
 const QueryItem = ({ item }: { item: locationSearchItem }) => {
-  const { setLocation } = useContext()
+  const { setLocation, setName } = useContext()
   const handleClick = () => {
     const { latitude, longitude } = item
     setLocation([latitude, longitude])
+    setName(item.name)
   }
   return (
     <div
       onClick={handleClick}
-      className='border border-white w-full p-4 rounded-md h-fit'
+      className='text-white border border-white w-full p-4 rounded-md h-fit hover:bg-white hover:text-black'
     >
       <p className='text-lg font-bold tracking-widest leading-4'>{item.name}</p>
       <small>
-        <span className='px-2 bg-white text-black font-semibold'>
+        <span className='px-2 bg-white text-black font-semibold border border-black'>
           {item.country_code}
         </span>{' '}
         - {item.country}
