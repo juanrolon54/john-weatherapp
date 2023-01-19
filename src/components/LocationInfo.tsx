@@ -3,7 +3,7 @@ import { useContext } from '../context/AppContext'
 import useSearchParamsState from '../hooks/useSearchParamsState'
 
 export default () => {
-  const { location, setLocation, setName } = useContext()
+  const { setName } = useContext()
 
   const [latitude, setLatitude] = useSearchParamsState('latitude')
   const [longitude, setLongitude] = useSearchParamsState('longitude')
