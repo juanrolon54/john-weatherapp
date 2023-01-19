@@ -4,6 +4,7 @@ import { useAutoAnimate } from '@formkit/auto-animate/react'
 import useSearchLocation from '../hooks/useSearchLocation'
 import type { locationSearchItem } from '../api/weather'
 import { useContext } from '../context/AppContext'
+import useSearchParamsState from '../hooks/useSearchParamsState'
 
 // country: "United States"
 // country_code: "US"
@@ -19,7 +20,10 @@ import { useContext } from '../context/AppContext'
 export default function WeatherBox() {
   const [results, setSearch, search] = useSearchLocation()
   const [animateRef] = useAutoAnimate<HTMLDivElement>()
-  const { setLocation, setName } = useContext()
+  const { setName } = useContext()
+  const [latitude, setLatitude] = useSearchParamsState('latitude')
+  const [longitude, setLongitude] = useSearchParamsState('longitude')
+
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
   }
@@ -39,7 +43,9 @@ export default function WeatherBox() {
       searchResults?.data.results.length > 0
     ) {
       const { latitude, longitude } = searchResults?.data.results[0]
-      setLocation([latitude, longitude])
+      setLatitude(String(latitude))
+      setLongitude(String(longitude))
+
       //TODO get better at typescript
       const { data }: any = results
       setName(data.results.name)
@@ -84,10 +90,14 @@ const QueryItems = ({ results }: any) => {
 }
 
 const QueryItem = ({ item }: { item: locationSearchItem }) => {
-  const { setLocation, setName } = useContext()
+  const { setName } = useContext()
+  const [latitude, setLatitude] = useSearchParamsState('latitude')
+  const [longitude, setLongitude] = useSearchParamsState('longitude')
+
   const handleClick = () => {
     const { latitude, longitude } = item
-    setLocation([latitude, longitude])
+    setLatitude(String(latitude))
+    setLongitude(String(longitude))
     setName(item.name)
   }
   return (

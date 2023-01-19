@@ -1,23 +1,26 @@
 import { ChangeEvent } from 'react'
 import { useContext } from '../context/AppContext'
+import useSearchParamsState from '../hooks/useSearchParamsState'
 
 export default () => {
   const { location, setLocation, setName } = useContext()
-  const [latitude, longitude] = location
+
+  const [latitude, setLatitude] = useSearchParamsState('latitude')
+  const [longitude, setLongitude] = useSearchParamsState('longitude')
   const handle = {
     latitude(e: ChangeEvent<HTMLInputElement>) {
-      setLocation([Number(e.target.value), location[1]])
+      setLatitude(e.target.value)
       setName('custom')
     },
     longitude(e: ChangeEvent<HTMLInputElement>) {
-      setLocation([location[0], Number(e.target.value)])
+      setLongitude(e.target.value)
       setName('custom')
     }
   }
   // -90 to 90 for latitude and -180 to 180 for longitude
   return (
     <div className='px-4 py-2 bg-white text-black'>
-      <p className='flex text-xl flex-col items-end lg:flex-row lg:gap-4'>
+      <div className='flex text-xl flex-col items-end lg:flex-row lg:gap-4'>
         <div>
           LATITUDE{' '}
           <input
@@ -25,7 +28,7 @@ export default () => {
             max={90}
             type='number'
             className='px-1 bg-black text-white outline-none w-32 transition-all'
-            value={latitude}
+            value={latitude || 0}
             onChange={handle.latitude}
           />
         </div>
@@ -37,11 +40,11 @@ export default () => {
             max={180}
             type='number'
             className='px-1 bg-black text-white outline-none w-32 transition-all'
-            value={longitude}
+            value={longitude || 0}
             onChange={handle.longitude}
           />
         </div>
-      </p>
+      </div>
     </div>
   )
 }

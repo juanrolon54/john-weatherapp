@@ -6,7 +6,7 @@ const apiProxy = createProxyMiddleware({
   pathRewrite: {
     '^/api/weather': ''
   }
-}) as any
+})
 
 export default function (req, res) {
   return apiProxy(req, res)

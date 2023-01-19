@@ -1,11 +1,20 @@
 import { useContext } from '../context/AppContext'
 import useWeatherByLocation from '../hooks/useWeatherByLocation'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import useSearchParamsState from '../hooks/useSearchParamsState'
+import { useEffect, useState } from 'react'
+
+// Maximum update depth exceeded. 
+// This can happen when a component calls setState inside useEffect, 
+// but useEffect either doesn't have a dependency array, 
+// or one of the dependencies changes on every render.
 
 export default () => {
-  const { location, name } = useContext()
-  const weather: any = useWeatherByLocation(location)
-  const [latitude, longitude] = location
+  const { name } = useContext()
+  const [latitude] = useSearchParamsState('latitude')
+  const [longitude] = useSearchParamsState('longitude')
+
+  const weather: any = useWeatherByLocation([Number(latitude), Number(longitude)])
 
   const [animateRef] = useAutoAnimate<HTMLDivElement>()
 

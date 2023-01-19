@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const weatherApi = axios.create({
-  baseURL: window.location.href + 'api/weather',
+  baseURL: import.meta.env.VITE_API_URL,
   timeout: 5000,
   withCredentials: true,
   headers: {

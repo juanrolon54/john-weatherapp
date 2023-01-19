@@ -1,20 +1,22 @@
 import * as THREE from 'three'
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Canvas, useFrame, ThreeElements, useLoader } from '@react-three/fiber'
-import { a, animated } from '@react-spring/three'
+import { animated } from '@react-spring/three'
 import { useSpring } from '@react-spring/core'
 import { useTexture } from '@react-three/drei'
+import { OrbitControls } from '@react-three/drei'
 
-import { useContext } from '../context/AppContext'
 import earthImg from '../assets/earthImg.jpg'
 import earthNormal from '../assets/earthNormal.jpg'
+import useSearchParamsState from '../hooks/useSearchParamsState'
 
 function Sphere(props: ThreeElements['mesh']) {
   const texture = useTexture(earthImg)
   const normalTexture = useTexture(earthNormal)
   return (
-    <mesh {...props}>
+    <mesh {...props} >
       <sphereGeometry args={[2, 100, 100]} />
+
       <meshStandardMaterial
         map={texture}
         normalMap={normalTexture}
@@ -28,13 +30,18 @@ const AnimatedSphere = animated(Sphere)
 
 export default () => {
   const degToRad = (deg: number) => (deg * Math.PI) / 180.0
-  const { location } = useContext()
+  const [latitude, setLatitude] = useSearchParamsState('latitude')
+  const [longitude, setLongitude] = useSearchParamsState('longitude')
+
+  const rotationX = degToRad(Number(latitude))
+  const rotationY = degToRad((Number(longitude) + 90) * -1)
+
   const { springX } = useSpring({
-    springX: degToRad(location[0]),
+    springX: rotationX,
     config: { precision: 0.0001 }
   })
   const { springY } = useSpring({
-    springY: degToRad((location[1] + 90) * -1),
+    springY: rotationY,
     config: { precision: 0.0001 }
   })
   const { color } = useSpring({
@@ -42,14 +49,19 @@ export default () => {
   })
 
   return (
-    <Canvas>
+    <Canvas >
+
       <pointLight position={[20, 50, 60]} />
       <ambientLight intensity={0.3} />
+      {/* <OrbitControls onChange={(e) => {
+        console.log(e?.target.getPolarAngle(), e?.target.getAzimuthalAngle())
+      }} getPolarAngle={} getAzimuthalAngle={}/> */}
       <AnimatedSphere
         position={[0, 0, 0]}
         rotation-y={springY}
         rotation-x={springX}
       />
+
     </Canvas>
   )
 }

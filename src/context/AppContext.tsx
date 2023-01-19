@@ -7,20 +7,17 @@ import {
 import type { locationSearchItem } from '../api/weather'
 
 export type value = {
-  location: [number, number]
   name: string
   setName: (name: string) => void
-  setLocation: (location: [number, number]) => void
 }
 
 const appContext = createContext<value | null>(null)
 
 export const ContextProvider = ({ children }: { children: ReactNode }) => {
-  const [location, setLocation] = useState<[number, number]>([0, 0])
   const [name, setName] = useState('')
 
   return (
-    <appContext.Provider value={{ location, setLocation, name, setName }}>
+    <appContext.Provider value={{ name, setName }}>
       {children}
     </appContext.Provider>
   )
