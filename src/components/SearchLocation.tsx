@@ -18,9 +18,12 @@ import useSearchParamsState from '../hooks/useSearchParamsState'
 // population: 327167434
 
 export default function WeatherBox() {
-  const [results, setSearch, search] = useSearchLocation()
-  const [animateRef] = useAutoAnimate<HTMLDivElement>()
+  const [search, setSearch] = useState('')
   const { setName } = useContext()
+
+  const response = useSearchLocation(search.trim())
+  const [animateRef] = useAutoAnimate<HTMLDivElement>()
+
   const [latitude, setLatitude] = useSearchParamsState('latitude')
   const [longitude, setLongitude] = useSearchParamsState('longitude')
 
@@ -29,26 +32,18 @@ export default function WeatherBox() {
   }
   const submitHandler = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
-    let searchResults: {
-      data: {
-        results: locationSearchItem[]
-      }
-    } = results as {
-      data: {
-        results: locationSearchItem[]
-      }
-    }
+
     if (
-      searchResults?.data?.results &&
-      searchResults?.data.results.length > 0
+      // @ts-ignore
+      response?.data.data.results &&
+      // @ts-ignore
+      response?.data.data.results.length > 0
     ) {
-      const { latitude, longitude } = searchResults?.data.results[0]
+      const { latitude, longitude } = response.data.data.results[0]
       setLatitude(String(latitude))
       setLongitude(String(longitude))
-
-      //TODO get better at typescript
-      const { data }: any = results
-      setName(data.results.name)
+      // @ts-ignore
+      setName(response.data.data.results[0].name)
     }
   }
   return (
@@ -68,21 +63,20 @@ export default function WeatherBox() {
       </form>
       <div className='flex-1 h-full overflow-x-hidden overflow-y-scroll p-2'>
         <div className='flex flex-col gap-2' ref={animateRef}>
-          {search !== '' && <QueryItems results={results} />}
+          {search !== '' && <QueryItems response={response} />}
         </div>
       </div>
     </div>
   )
 }
 
-const QueryItems = ({ results }: any) => {
-  if (results.isLoading) return <div>...</div>
-  if (results.isError) return <div>ERROR</div>
-  if (!results.data?.results) return <div>No results</div>
-
+const QueryItems = ({ response }: any) => {
+  if (response?.isLoading) return <div className='animate-pulse'>loading...</div>
+  if (response?.isError) return <div>ERROR</div>
+  if (!response?.data?.data?.results) return <div>No results</div>
   return (
     <>
-      {results.data.results.map((item: locationSearchItem) => (
+      {response.data.data.results.map((item: locationSearchItem) => (
         <QueryItem key={item.id} item={item} />
       ))}
     </>

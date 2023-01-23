@@ -11,7 +11,6 @@ export const weatherApi = axios.create({
 
 export const locationApi = axios.create({
   baseURL: 'https://geocoding-api.open-meteo.com/v1/search',
-  timeout: 1000,
   headers: {
     'Content-type': 'application/json'
   }
